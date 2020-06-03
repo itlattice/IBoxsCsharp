@@ -1,38 +1,17 @@
-# IBoxs
+## 简介
 
-#### 介绍
-{**以下是码云平台说明，您可以替换此简介**
-码云是 OSCHINA 推出的基于 Git 的代码托管平台（同时支持 SVN）。专为开发者提供稳定、高效、安全的云端软件开发协作平台
-无论是个人、团队、或是企业，都能够用码云实现代码托管、项目管理、协作开发。企业项目请看 [https://gitee.com/enterprises](https://gitee.com/enterprises)}
+Native.SDK  是为了方便 .Net 平台开发者高效开发 酷Q应用 的开发框架。封装酷Q 提供的接口，提供了安全高效的Api，同时抽象了事件中的基础数据类型，并且提供了完整的托管异常处理，提供了优秀的开发环境。
 
-#### 软件架构
-软件架构说明
+## 特点
 
-#### 安装教程
+* 支持原生导出函数，不需要前置插件作为服务端。(能够在 .Net 平台中导出 C/C++ 可用的导出函数)
+* 支持包括 WebServices 在内的所有 .Net 项目进行交互。
+* 支持编译整合DLL。(在编译的同时，对所有使用到的程序集进行整合打包，保证最终结果只有 app.dll)
+* 支持自由调整 .Net Framework 版本
+* 支持 C# 和 VB.NET 两种语言编写代码
+* 使用 UTF-8 编码，并且在托管和非托管之间启用了 GB18030 编码的转换
+* 目前仅支持 .Net Framework 4.5
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+## 更新日志
 
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 码云特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5.  码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+[Native 更新日志](UPDATE.md)
