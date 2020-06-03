@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("格子吧QQ无人值守全自动发卡机器人")]
-[assembly: AssemblyDescription("IT格子吧QQ发卡机器人酷Q插件，全自动化的发卡机器人，自带收银系统，官方签约接口，更稳定安全，24小时内提现到账，费率更低")]
+[assembly: AssemblyTitle("IBoxs酷Q开发框架")]
+[assembly: AssemblyDescription("IBoxs酷Q开发框架（基于Native.SDK）")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("IT格子吧（https://www.itgz8.com）")]
-[assembly: AssemblyProduct("格子吧QQ无人值守全自动发卡机器人【酷Q插件】")]
+[assembly: AssemblyProduct("")]
 [assembly: AssemblyCopyright("Copyright © IT格子吧 2019")]
 [assembly: AssemblyTrademark("IT格子吧")]
 [assembly: AssemblyCulture("")]
