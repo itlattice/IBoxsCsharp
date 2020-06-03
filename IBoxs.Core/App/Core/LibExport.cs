@@ -59,7 +59,7 @@ namespace IBoxs.Core.App.Core
 			// 
 			Common.AppName = "酷QC#开发SDK（改进版）";
 			Common.AppVersion = Version.Parse ("1.0.0");		
-
+			AppInfo appInfo = new AppInfo ("com.itgz8.IBoxs", 1, 9, "酷QC#开发SDK（改进版）", "1.0.0", 1, "IT格子", "酷QC#开发SDK（改进版）" ,CqApi.authCode);
 			//
 			// 当前项目名称: com.itgz8.IBoxs
 			// Api版本: 9

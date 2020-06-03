@@ -24,13 +24,21 @@ namespace IBoxs.Sdk.Cqp
 		private readonly Encoding _defaultEncoding = null;
 		private readonly Regex _cookieRegex = null;
 		private string _appDirCache = null;
+        public static int authCode = 0;
 		#endregion
 
 		#region --属性--
 		/// <summary>
 		/// 获取或设置该实例的验证码
 		/// </summary>
-		public int AuthCode { get { return _authCode; } }
+		public int AuthCode
+        {
+            get
+            {
+                authCode = _authCode;
+                return _authCode;
+            }
+        }
 		#endregion
 
 		#region --构造函数--
@@ -177,15 +185,24 @@ namespace IBoxs.Sdk.Cqp
 		public string CqCode_Anonymous (bool forced = false)
 		{
 			return string.Format ("[CQ:anonymous{0}]", forced ? ",ignore=true" : string.Empty);
-		}
-		/// <summary>
-		/// 获取酷Q "图片" 代码
-		/// </summary>
-		/// <param name="filePath">图片路径
-		/// <para>将图片放在 data\image 下，并填写相对路径。如 data\image\1.jpg 则填写 1.jpg</para></param>
-		/// <returns></returns>
-		public string CqCode_Image (string filePath)
+        }
+        /// <summary>
+        /// 获取酷Q "图片" 代码
+        /// </summary>
+        /// <param name="filePath">图片路径
+        /// <para>将图片放在 data\image 下，并填写相对路径。如 data\image\1.jpg 则填写 1.jpg</para></param>
+        ///<param name = "destory">是否为闪图</param>
+        /// <returns></returns>
+        public string CqCode_Image (string filePath,bool destory = false)
 		{
+            if (Path.IsPathRooted(filePath))
+            {
+                File.Copy(filePath,Application.StartupPath+ @"\data\image\"+ Path.GetFileName(filePath),true);
+            }
+            if (destory)
+            {
+                return string.Format("[CQ:image,file={0},destory=true]", CqCode_Trope(filePath, true));
+            }
 			return string.Format ("[CQ:image,file={0}]", CqCode_Trope (filePath, true));
 		}
 		/// <summary>
@@ -257,15 +274,23 @@ namespace IBoxs.Sdk.Cqp
 			}
 			return string.Format ("[CQ:music,type=custom{0}]", @string.ToString ());
 		}
-		/// <summary>
-		/// 获取酷Q "语音" 代码
-		/// </summary>
-		/// <param name="filePath">语音路径
-		/// <para>将语音放在 data\record 下，并填写相对路径。如 data\record\1.amr 则填写 1.amr</para></param>
-		/// <returns></returns>
-		public string CqCode_Record (string filePath)
+        /// <summary>
+        /// 获取酷Q "语音" 代码
+        /// </summary>
+        /// <param name="filePath">语音路径</param>
+        /// <param name="magic">是否为变声</param>
+        /// <returns></returns>
+        public string CqCode_Record (string filePath,bool magic= false)
 		{
-			return string.Format ("[CQ:record,file={0}]", CqCode_Trope (filePath, true));
+            if (Path.IsPathRooted(filePath))
+            {
+                File.Copy(filePath, Application.StartupPath + @"\data\record\" + Path.GetFileName(filePath), true);
+            }
+            if (magic)
+            {
+                return string.Format("[[CQ:record,file={0},magic=true]", CqCode_Trope(filePath, true));
+            }
+            return string.Format ("[CQ:record,file={0}]", CqCode_Trope (filePath, true));
 		}
 		#endregion
 
@@ -276,12 +301,12 @@ namespace IBoxs.Sdk.Cqp
 		/// <param name="groupId">目标群</param>
 		/// <param name="message">消息内容</param>
 		/// <returns>失败返回负值, 成功返回消息 Id</returns>
-		public string SendGroupMessage (long groupId, string message)
+		public int SendGroupMessage (long groupId, string message)
 		{
 			GCHandle handle = message.GetStringGCHandle (_defaultEncoding);
-			string msgId = Marshal.PtrToStringAnsi(CQP.CQ_sendGroupMsg (_authCode, groupId, handle.AddrOfPinnedObject ()));
+			string msgId ="0"+ Marshal.PtrToStringAnsi(CQP.CQ_sendGroupMsg (_authCode, groupId, handle.AddrOfPinnedObject ()));
 			handle.Free ();
-			return msgId;
+			return Convert.ToInt32(msgId);
 		}
 
         /// <summary>
@@ -289,9 +314,18 @@ namespace IBoxs.Sdk.Cqp
         /// </summary>
         /// <param name="qqId">目标QQ</param>
         /// <param name="message">消息内容</param>
-        /// <returns>失败返回负值, 成功返回消息 Id</returns>
-        public string SendPrivateMessage(long qqId, string message)
+        /// <param name="anonymous">是否匿名</param>
+        /// <param name="ignore">为 true 时，代表不强制使用匿名，如果匿名失败将转为普通消息发送。为 false 或 ignore 参数被忽略时，代表强制使用匿名，如果匿名失败将取消该消息的发送。</param>
+        /// <returns>失败返回负值, 成功返回0</returns>
+        public string SendPrivateMessage(long qqId, string message,bool anonymous=false,bool ignore=false)
         {
+            if (anonymous)
+            {
+                if(ignore)
+                    message = "[CQ:anonymous,ignore=true]" + message;
+                else
+                    message = "[CQ:anonymous,ignore=false]" + message;
+            }
             GCHandle handle = message.GetStringGCHandle(_defaultEncoding);
             string c = CQP.CQ_sendPrivateMsg(_authCode, qqId, handle.AddrOfPinnedObject()).ToString(_defaultEncoding);
             handle.Free();
@@ -304,12 +338,12 @@ namespace IBoxs.Sdk.Cqp
 		/// <param name="discussId">目标讨论组</param>
 		/// <param name="message">消息内容</param>
 		/// <returns>失败返回负值, 成功返回消息 Id</returns>
-		public string SendDiscussMessage (long discussId, string message)
+		public int SendDiscussMessage (long discussId, string message)
 		{
 			GCHandle handle = message.GetStringGCHandle (_defaultEncoding);
-			string msgid = Marshal.PtrToStringAnsi(CQP.CQ_sendDiscussMsg (_authCode, discussId, handle.AddrOfPinnedObject ()));
+			string msgid ="0"+ Marshal.PtrToStringAnsi(CQP.CQ_sendDiscussMsg (_authCode, discussId, handle.AddrOfPinnedObject ()));
 			handle.Free ();
-			return msgid;
+            return Convert.ToInt32(msgid);
 		}
 
 		/// <summary>
@@ -318,7 +352,7 @@ namespace IBoxs.Sdk.Cqp
 		/// <param name="qqId">目标QQ</param>
 		/// <param name="count">赞的次数，最多10次（留空为1次）</param>
 		/// <returns></returns>
-		public int SendPraise (long qqId, int count = 1)
+		public string SendPraise (long qqId, int count = 1)
 		{
 			if (count < 1)
 			{
@@ -328,7 +362,7 @@ namespace IBoxs.Sdk.Cqp
 			{
 				count = 10;
 			}
-			return Convert.ToInt32(Marshal.PtrToStringAnsi(CQP.CQ_sendLikeV2 (_authCode, qqId, count)));
+			return Marshal.PtrToStringAnsi( CQP.CQ_sendLikeV2 (_authCode, qqId, count));
 		}
 
 		/// <summary>

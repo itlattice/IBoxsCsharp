@@ -42,6 +42,9 @@
     <NoWarn>618,1591;3001</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Transactions" />
@@ -53,13 +56,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataBase\DataBaseTool.cs" />
+    <Compile Include="DataBase\Sqlite.cs" />
+    <Compile Include="Encryption\Base64.cs" />
+    <Compile Include="Encryption\KeyEnc.cs" />
+    <Compile Include="Encryption\MD5.cs" />
+    <Compile Include="Http\Email.cs" />
     <Compile Include="Http\HttpTool.cs" />
     <Compile Include="Http\HttpWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="IniConfig\Linq\IniObject.cs" />
-    <Compile Include="IniConfig\Linq\IniSection.cs" />
-    <Compile Include="IniConfig\Linq\IniValue.cs" />
+    <Compile Include="IniConfig\IOConfig.cs" />
     <Compile Include="NativeConvert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\AssemblySourceIdAttribute.cs" />
@@ -111,10 +118,11 @@
     <Compile Include="SQLite\SQLiteTransaction2.cs" />
     <Compile Include="SQLite\SQLiteTransactionBase.cs" />
     <Compile Include="SQLite\UnsafeNativeMethods.cs" />
+    <Compile Include="Tools\ToolsBox.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="IniConfig\README.md" />
+    <None Include="packages.config" />
     <None Include="SQLite\Configurations\System.Data.SQLite.dll.config" />
   </ItemGroup>
   <ItemGroup />

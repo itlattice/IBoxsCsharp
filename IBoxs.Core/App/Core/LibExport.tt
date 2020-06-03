@@ -80,7 +80,7 @@ namespace IBoxs.Core.App.Core
 			// 
 			Common.AppName = "<#=		GetAppName (root) #>";
 			Common.AppVersion = Version.Parse ("<#=		GetVersion (root) #>");		
-
+			AppInfo appInfo = new AppInfo ("<#=		Host.ResolveAssemblyReference ("$(TargetName)") #>", 1, 9, "<#=		GetAppName (root) #>", "<#=		GetVersion (root) #>", <#= GetVerID(root) #>, "<#=		GetAuthor (root) #>", "<#=		GetDescription (root) #>" ,CqApi.authCode);
 			//
 			// 当前项目名称: <#=		Host.ResolveAssemblyReference ("$(TargetName)") #>
 			// Api版本: 9
@@ -176,7 +176,58 @@ namespace IBoxs.Core.App.Core
 		}
 		return "解析失败";
 	}
+
+	public string GetVerID (JObject root)
+	{
+		if (root != null)
+		{
+			try
+			{
+				return root["version_id"].Value<string> ();
+			}
+			catch (Exception e)
+			{
+				this.Error (e.Message);
+			}
+		}
+		return "解析失败";
+	}
+
+
+	public string GetAuthor (JObject root)
+	{
+		if (root != null)
+		{
+			try
+			{
+				return root["author"].Value<string> ();
+			}
+			catch (Exception e)
+			{
+				this.Error (e.Message);
+			}
+		}
+		return "解析失败";
+	}
+
+	public string GetDescription (JObject root)
+	{
+		if (root != null)
+		{
+			try
+			{
+				return root["description"].Value<string> ();
+			}
+			catch (Exception e)
+			{
+				this.Error (e.Message);
+			}
+		}
+		return "解析失败";
+	}
+
  #>
+
 <#+
 	public string GetVersion (JObject root)
 	{

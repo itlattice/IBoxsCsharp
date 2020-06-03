@@ -106,6 +106,7 @@
     <Compile Include="Cqp\Interface\IReceiveOnlineStatusMessage.cs" />
     <Compile Include="Cqp\Interface\IReceiveRemoveGroupBan.cs" />
     <Compile Include="Cqp\Interface\IReceiveSetGroupBan.cs" />
+    <Compile Include="Cqp\Model\AppInfo.cs" />
     <Compile Include="Cqp\Model\CqCode.cs" />
     <Compile Include="Cqp\Model\FloatWindow.cs" />
     <Compile Include="Cqp\Model\FriendInfo.cs" />
